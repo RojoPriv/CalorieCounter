@@ -4,18 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CalorieCounter.Pages"
-    Title="CalorieCounter"
-    BackgroundColor="Green">
+    Title="CalorieCounter">
     <TabBar>
 
         <ShellContent
-            Title="FoodInfo"
-            Icon="food.png"
+            Icon= "test.png"
             ContentTemplate="{DataTemplate local:FoodInfo}"
             Route="FoodInfo" />
 
         <ShellContent
-            Title="Home"
             Icon="home.png"
             ContentTemplate="{DataTemplate local:MainPage}"
             Route="MainPage" />
