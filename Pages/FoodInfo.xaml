@@ -8,7 +8,30 @@
 
         <Entry x:Name="foodEntryField" Placeholder="Food" />
         <Entry x:Name="CalorieEntryField" Placeholder="CaloriePerGram" />
-        <Button x:Name="addButton" Text="Add" Clicked="addButton_Clicked" BackgroundColor="Green" />
-        
+        <Button x:Name="addButton" Text="Add" Clicked="addButton_Clicked" 
+                HorizontalOptions="Center"
+                Margin="20" WidthRequest="150"
+                BackgroundColor= "Black"/>
+
+        <ListView x:Name="FoodInfoView" FlexLayout.Grow="1" HasUnevenRows="True" ItemTapped="FoodInfoView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <VerticalStackLayout Padding="5">
+                            <Label Text="{Binding FoodName}" FontSize="10" FontAttributes="Bold" />
+                            <!--<Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>-->
+                            <Label Text="{Binding CaloriePerGram}" FontSize="10" FontAttributes="Bold" />
+                                   
+                            <!--</Grid>-->
+                        </VerticalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            </ListView>
     </VerticalStackLayout>
 </ContentPage>

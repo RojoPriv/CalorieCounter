@@ -8,7 +8,7 @@
     <TabBar>
 
         <ShellContent
-            Icon= "test.png"
+            Icon= "fork_knife.png"
             ContentTemplate="{DataTemplate local:FoodInfo}"
             Route="FoodInfo" />
 
