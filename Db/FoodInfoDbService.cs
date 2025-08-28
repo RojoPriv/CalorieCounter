@@ -7,39 +7,52 @@ using System.Threading.Tasks;
 
 namespace CalorieCounter.Db
 {
-    public static class FoodInfoDbService
+    public class FoodInfoDbService
     {
-        static SQLiteAsyncConnection db;
-        static async Task Init()
+        private SQLiteAsyncConnection db;
+        public FoodInfoDbService()
         {
-            if (db != null)
-                return;
             var databasepath = Path.Combine(FileSystem.AppDataDirectory,"FoodInfo.db");
             db = new SQLite.SQLiteAsyncConnection(databasepath);
-            await db.CreateTableAsync<FoodInfoDbModel>();
+            db.CreateTableAsync<FoodInfoDbModel>();
         }
 
-        public static async Task AddFoodInfo(String FoodName, int CaloriePerGram)
+        public async Task AddFoodInfo(FoodInfoDbModel foodInfo)
         {   
-            await Init();
-            var foodInfo = new FoodInfoDbModel
-            {
-                FoodName = FoodName,
-                CaloriesPerGram = CaloriePerGram
-            };
             await db.InsertAsync(foodInfo);
         }
-        public static async Task DeleteFoodInfo(int id)
+
+        public async Task UpdateFoodInfo(FoodInfoDbModel foodInfo)
         {
-            await Init();
-            await db.DeleteAsync<FoodInfoDbModel>(id);
+            await db.UpdateAsync(foodInfo);
+        }
+        public  async Task DeleteFoodInfo(FoodInfoDbModel foodInfo)
+        {
+            await db.DeleteAsync(foodInfo);
         }
 
-        public static async Task<List<FoodInfoDbModel>> GetAllFoodInfo()
+        public async Task<List<FoodInfoDbModel>> GetAllFoodInfo()
         {
-            await Init();
             var foodInfoList = await db.Table<FoodInfoDbModel>().ToListAsync();
             return foodInfoList;
+        }
+
+        public async Task<FoodInfoDbModel> GetById(int id)
+        {
+            return await db.Table<FoodInfoDbModel>().Where(x => x.Id == id).FirstOrDefaultAsync();
+           
+        }
+
+        public async Task<float?> GetCaloriesPerGramById(int id)
+        {
+            var result = await db.Table<FoodInfoDbModel>().Where(x => x.Id == id).FirstOrDefaultAsync();
+            return result?.CaloriesPerGram;
+        }
+
+        public async Task<int?> GetIdByFoodName(string foodname)
+        {
+            var result = await db.Table<FoodInfoDbModel>().Where(x => x.FoodName == foodname).FirstOrDefaultAsync();
+            return result?.Id;
         }
     }
 }

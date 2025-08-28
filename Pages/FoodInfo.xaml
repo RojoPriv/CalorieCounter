@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model = "clr-namespace:CalorieCounter.Db"
              x:Class="CalorieCounter.Pages.FoodInfo"
              Title="FoodInfo"
              BackgroundColor="White">
-    <VerticalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,Auto,*">
 
-        <Entry x:Name="foodEntryField" Placeholder="Food" />
-        <Entry x:Name="CalorieEntryField" Placeholder="CaloriePerGram" />
-        <Button x:Name="addButton" Text="Add" Clicked="addButton_Clicked" 
+        <Entry x:Name="foodEntryField" x:DataType="model:FoodInfoDbModel" Placeholder="Food" Grid.Row="0"/>
+        <Entry x:Name="CalorieEntryField" x:DataType="model:FoodInfoDbModel" Placeholder="CaloriePerGram" Grid.Row="1"/>
+        <Button x:Name="addButton" Text="Add" Clicked="AddButton_Clicked" 
                 HorizontalOptions="Center"
                 Margin="20" WidthRequest="150"
-                BackgroundColor= "Black"/>
+                BackgroundColor= "Black" Grid.Row="2"/>
 
-        <ListView x:Name="FoodInfoView" FlexLayout.Grow="1" HasUnevenRows="True" ItemTapped="FoodInfoView_ItemTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <VerticalStackLayout Padding="5">
-                            <Label Text="{Binding FoodName}" FontSize="10" FontAttributes="Bold" />
-                            <!--<Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>-->
-                            <Label Text="{Binding CaloriePerGram}" FontSize="10" FontAttributes="Bold" />
-                                   
-                            <!--</Grid>-->
-                        </VerticalStackLayout>
-                    </ViewCell>
+        <CollectionView x:Name="FoodInfoView" SelectionMode="Single" SelectionChanged="FoodInfoView_SelectionChanged" Margin="10" Grid.Row="3" >
+            <CollectionView.Header>
+                <Grid Padding="5" BackgroundColor="#EEE">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Food Name" FontAttributes="Bold" />
+                    <Label Text="Calories/Gram" Grid.Column="1" FontAttributes="Bold" />
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:FoodInfoDbModel">
+                    <Grid Padding="5" BackgroundColor="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding FoodName}" />
+                        <Label Text="{Binding CaloriesPerGram}" Grid.Column="1" />
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-            </ListView>
-    </VerticalStackLayout>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>
