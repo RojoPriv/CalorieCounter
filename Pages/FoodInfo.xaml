@@ -20,9 +20,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Text="Food Name" FontAttributes="Bold" />
                     <Label Text="Calories/Gram" Grid.Column="1" FontAttributes="Bold" />
+                    <Label Text="ID" Grid.Column="2" FontAttributes="Bold" />
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
@@ -31,9 +33,11 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Text="{Binding FoodName}" />
                         <Label Text="{Binding CaloriesPerGram}" Grid.Column="1" />
+                        <Label Text="{Binding Id}" Grid.Column="2" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

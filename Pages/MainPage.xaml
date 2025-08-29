@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:zoft="http://zoft.MauiExtensions/Controls"
              xmlns:model = "clr-namespace:CalorieCounter.Db"
              x:Class="CalorieCounter.Pages.MainPage">
 
@@ -8,8 +10,14 @@
     <VerticalStackLayout>
        <Label x:Name="dateLabel" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,20,0,10"/>
         <Grid RowDefinitions="Auto,Auto,Auto,*">
-
-            <Entry x:Name="foodEntryField" x:DataType="model:DailyTrackerDbModel" Placeholder="Food" Grid.Row="0"/>
+            <!--<Entry x:Name="foodEntryField" x:DataType="model:DailyTrackerDbModel" 
+                               Placeholder="Food" Grid.Row="0"  />-->
+            <!--TextChanged="foodEntryField_TextChanged"-->
+            <zoft:AutoCompleteEntry x:Name="foodEntryField"  
+                                    Placeholder="Food" 
+                                    TextChanged="foodEntryField_TextChanged"
+                                    Grid.Row="0"
+                                    Margin="0,50,0,0"/>
             <Entry x:Name="gramEntryField" x:DataType="model:DailyTrackerDbModel" Placeholder="Gram" Grid.Row="1"/>
             <Button x:Name="addButton" Text="Add" Clicked="addButton_Clicked" 
              HorizontalOptions="Center"

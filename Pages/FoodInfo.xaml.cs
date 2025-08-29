@@ -1,4 +1,5 @@
 using CalorieCounter.Db;
+using zoft.MauiExtensions.Controls;
 
 namespace CalorieCounter.Pages;
 
@@ -6,13 +7,12 @@ public partial class FoodInfo : ContentPage
 {
     private readonly FoodInfoDbService _foodInfoDb;
     private int editFoodId;
-	public FoodInfo(FoodInfoDbService foodInfoDb)
+    public FoodInfo(FoodInfoDbService foodInfoDb)
 	{
 		InitializeComponent();
         _foodInfoDb = foodInfoDb;
         Task.Run(async() => FoodInfoView.ItemsSource = await _foodInfoDb.GetAllFoodInfo());
     }
-
 
     private async void AddButton_Clicked(object sender, EventArgs e)
     {
@@ -89,4 +89,5 @@ public partial class FoodInfo : ContentPage
             FoodInfoView.SelectedItem = null;
         }
     }
+ 
 }

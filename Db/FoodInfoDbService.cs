@@ -9,12 +9,16 @@ namespace CalorieCounter.Db
 {
     public class FoodInfoDbService
     {
-        private SQLiteAsyncConnection db;
+        private readonly SQLiteAsyncConnection db;
         public FoodInfoDbService()
         {
             var databasepath = Path.Combine(FileSystem.AppDataDirectory,"FoodInfo.db");
-            db = new SQLite.SQLiteAsyncConnection(databasepath);
-            db.CreateTableAsync<FoodInfoDbModel>();
+           db = new SQLiteAsyncConnection((databasepath),SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create |SQLiteOpenFlags.SharedCache);
+           
+        }
+        public async Task InitializeAsync()
+        {
+            await db.CreateTableAsync<FoodInfoDbModel>();
         }
 
         public async Task AddFoodInfo(FoodInfoDbModel foodInfo)
@@ -54,5 +58,14 @@ namespace CalorieCounter.Db
             var result = await db.Table<FoodInfoDbModel>().Where(x => x.FoodName == foodname).FirstOrDefaultAsync();
             return result?.Id;
         }
+
+        public async Task<List<FoodInfoDbModel>>SearchFoodName(string searchterm)
+        {
+            var result = await db.Table<FoodInfoDbModel>()
+           .Where(x => x.FoodName != null && x.FoodName.ToLower().StartsWith(searchterm.ToLower()))
+           .ToListAsync();
+            return result;
+        }
+
     }
 }
