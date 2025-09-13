@@ -1,15 +1,12 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace CalorieCounter.Db
 {
     public class FoodInfoDbService
     {
         private readonly SQLiteAsyncConnection db;
+        
         public FoodInfoDbService()
         {
             var databasepath = Path.Combine(FileSystem.AppDataDirectory,"FoodInfo.db");
@@ -61,10 +58,12 @@ namespace CalorieCounter.Db
 
         public async Task<List<FoodInfoDbModel>>SearchFoodName(string searchterm)
         {
-            var result = await db.Table<FoodInfoDbModel>()
-           .Where(x => x.FoodName != null && x.FoodName.ToLower().StartsWith(searchterm.ToLower()))
-           .ToListAsync();
+            var result = await db.Table<FoodInfoDbModel>().Where(x => x.FoodName.StartsWith(searchterm)).ToListAsync();
             return result;
+        }
+        public async Task<FoodInfoDbModel> GetFoodInfoByFoodName(string foodname)
+        {
+            return await db.Table<FoodInfoDbModel>().Where(x => x.FoodName == foodname).FirstOrDefaultAsync();
         }
 
     }
