@@ -2,59 +2,76 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:zoft="http://zoft.MauiExtensions/Controls"
+             xmlns:control ="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:model = "clr-namespace:CalorieCounter.Db"
              x:Class="CalorieCounter.Pages.MainPage">
 
 
-    <VerticalStackLayout>
-       <Label x:Name="dateLabel" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,20,0,10"/>
-        <Grid RowDefinitions="Auto,Auto,Auto,*">
-            <!--<Entry x:Name="foodEntryField" x:DataType="model:DailyTrackerDbModel" 
-                               Placeholder="Food" Grid.Row="0"  />-->
-            <!--TextChanged="foodEntryField_TextChanged"-->
-            <zoft:AutoCompleteEntry x:Name="foodEntryField"  
-                                    Placeholder="Food" 
-                                    TextChanged="foodEntryField_TextChanged"
-                                    Grid.Row="0"
-                                    Margin="0,50,0,0"/>
-            <Entry x:Name="gramEntryField" x:DataType="model:DailyTrackerDbModel" Placeholder="Gram" Grid.Row="1"/>
-            <Button x:Name="addButton" Text="Add" Clicked="addButton_Clicked" 
-             HorizontalOptions="Center"
-             Margin="20" WidthRequest="150"
-             BackgroundColor= "Black" Grid.Row="2"/>
+   
+     
+    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
+          ColumnDefinitions="*"
+          Margin="20">
 
-            <CollectionView x:Name="CalorieInfoView" SelectionMode="Single" SelectionChanged="CalorieInfoView_SelectionChanged" Margin="10" Grid.Row="3" >
-                <CollectionView.Header>
-                    <Grid Padding="5" BackgroundColor="#EEE">
+        <!-- Search Bar and Autocomplete View -->
+        <Grid Grid.Row="0">
+            <control:SfAutocomplete x:Name="foodSearchBar"
+                                    Placeholder="Food"
+                                    DisplayMemberPath="FoodName"
+                                    TextSearchMode="Contains"
+                                    BackgroundColor="White"
+                                    HeightRequest="40"/>
+        </Grid>
+
+        <!-- Gram Entry and Add Button -->
+        <Entry x:Name="gramEntryField" Placeholder="Gram" Grid.Row="1" Keyboard="Numeric"/>
+        <Button x:Name="addButton" Text="Add" Clicked="addButton_Clicked" 
+            HorizontalOptions="Center"
+            Margin="20" WidthRequest="150"
+            BackgroundColor= "Black" Grid.Row="2"/>
+
+        <!-- Daily Calorie Info View -->
+        <CollectionView x:Name="CalorieInfoView"
+                        Grid.Row="3"
+                        SelectionMode="Single"
+                        SelectionChanged="CalorieInfoView_SelectionChanged"
+                        BackgroundColor="White">
+            <CollectionView.Header>
+                <Grid Padding="5" BackgroundColor="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Food" FontAttributes="Bold" />
+                    <Label Text="Gram" Grid.Column="1" FontAttributes="Bold" />
+                    <Label Text="Calories" Grid.Column="2" FontAttributes="Bold" />
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:DailyTrackerDbModel">
+                    <Grid Padding="5" BackgroundColor="White">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Label Text="Food" FontAttributes="Bold" />
-                        <Label Text="Gram" Grid.Column="1" FontAttributes="Bold" />
-                        <Label Text="Calories" Grid.Column="2" FontAttributes="Bold" />
+                        <Label Text="{Binding Food}" />
+                        <Label Text="{Binding Grams}" Grid.Column="1" />
+                        <Label Text="{Binding Calories}" Grid.Column="2" />
                     </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:DailyTrackerDbModel">
-                        <Grid Padding="5" BackgroundColor="White">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Food}" />
-                            <Label Text="{Binding Grams}" Grid.Column="1" />
-                            <Label Text="{Binding Calories}" Grid.Column="2" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-    </VerticalStackLayout>
-    
+        <!-- Total Calories Label -->
+        <VerticalStackLayout Grid.Row="4" Margin="20" Spacing="10">
+            <Label x:Name="totalCaloriesLabel"
+                   Text="Total Calories: 0"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+        </VerticalStackLayout>
 
+    </Grid>
 </ContentPage>

@@ -1,6 +1,6 @@
 using CalorieCounter.Db;
-using zoft.MauiExtensions.Controls;
-
+using CalorieCounter.Messages;
+using CommunityToolkit.Mvvm.Messaging;
 namespace CalorieCounter.Pages;
 
 public partial class FoodInfo : ContentPage
@@ -66,6 +66,9 @@ public partial class FoodInfo : ContentPage
         CalorieEntryField.Text = string.Empty;
         //Refresh the view
         FoodInfoView.ItemsSource = await _foodInfoDb.GetAllFoodInfo();
+        //send a message that the foodlist is updated 
+        WeakReferenceMessenger.Default.Send(new FoodUpdatedMessage());
+
     }
 
     private async void FoodInfoView_SelectionChanged(object sender, SelectionChangedEventArgs e)

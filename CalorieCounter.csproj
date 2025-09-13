@@ -61,10 +61,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.90" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
-		<PackageReference Include="zoft.MauiExtensions.Controls.AutoCompleteEntry" Version="4.0.5" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="31.1.19" />
 	</ItemGroup>
 
 	<ItemGroup>
